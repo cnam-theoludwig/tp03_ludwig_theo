@@ -9,6 +9,12 @@ Cette page doit présenter une liste de produits sous la forme d'un tableau.
 - Créer un composant permettant d'afficher la liste des produits
 - Créer un composant moteur de recherche permettant de filtrer les produits suivants plusieurs critères
 
+### Exemples
+
+- <https://ecommerce-store.typesense.org/>
+- <https://flowbite.com/blocks/e-commerce/product-cards/>
+- Cocktails: <https://w51.vercel.app/cocktails>
+
 ## Procédure de Livraison
 
 Créer un repo GITHUB nommé `tp03_nom_prenom`
