@@ -5,6 +5,12 @@
 >
   <section class="my-6">
     <h2>Catalogue de produits</h2>
+
+    <ul class="my-6 space-y-4 w-full list-none">
+      @for (product of products | async; track $index) {
+        <li>{{ product.title }}</li>
+      }
+    </ul>
   </section>
 </main>
 
