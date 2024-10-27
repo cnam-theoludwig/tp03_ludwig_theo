@@ -9,6 +9,10 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    min-width: 0;
+  }
+
   b,
   strong {
     @apply font-semibold;
@@ -36,11 +40,11 @@
     @apply italic tracking-wider;
   }
   blockquote {
-    @apply border-gray border-l-4 pl-3 italic;
+    @apply border-gray-lighter border-l-4 pl-3 italic;
   }
 
   kbd {
-    @apply bg-gray rounded-md px-2;
+    @apply bg-gray-lighter rounded-md px-2;
   }
 
   mark {

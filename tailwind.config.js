@@ -10,7 +10,7 @@ const config = {
         primary: "#0056B3",
         success: "#2F855A",
         error: "#C53030",
-        gray: "#D1D5DB",
+        "gray-lighter": "#D1D5DB",
         "gray-darker": "#4B5563",
         highlight: "#FEF08A",
       },
