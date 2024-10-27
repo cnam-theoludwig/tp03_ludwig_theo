@@ -4,13 +4,13 @@
   class="min-h-[calc(100vh-152px)] md:mx-auto md:max-w-4xl lg:max-w-7xl px-6"
 >
   <section class="my-6">
-    <h2>Catalogue de produits</h2>
+    <h2>Boissons</h2>
 
-    <ul class="my-6 space-y-4 w-full list-none">
-      @for (product of products | async; track $index) {
-        <li>{{ product.title }}</li>
-      }
-    </ul>
+    @if (products | async; as productsList) {
+      <app-product-list [products]="productsList"></app-product-list>
+    } @else {
+      <app-product-list-skeleton></app-product-list-skeleton>
+    }
   </section>
 </main>
 
