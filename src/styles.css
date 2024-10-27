@@ -94,10 +94,3 @@
 body {
   @apply bg-white font-sans text-black;
 }
-
-@keyframes ripple {
-  to {
-    opacity: 0;
-    transform: scale(2);
-  }
-}

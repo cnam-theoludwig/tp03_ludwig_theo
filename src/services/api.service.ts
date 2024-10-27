@@ -13,7 +13,7 @@ export class ApiService {
 
   public getProducts(): Observable<Product[]> {
     let productsObservable = this.http.get<Product[]>(environment.apiURL)
-    productsObservable = productsObservable.pipe(delay(800))
+    productsObservable = productsObservable.pipe(delay(1_000))
     return productsObservable
   }
 }
