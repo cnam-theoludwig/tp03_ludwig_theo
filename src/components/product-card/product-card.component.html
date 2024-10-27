@@ -1,17 +1,17 @@
 <li
-  class="bg-white border-gray-darker/70 border shadow-lg rounded-lg overflow-hidden flex flex-col h-full transform transition duration-500 hover:scale-105 cursor-pointer"
+  class="bg-white border-gray-darker/70 border shadow-lg rounded-lg overflow-hidden flex flex-col h-full transition duration-500 hover:scale-105 cursor-pointer"
 >
   <img
     [src]="product.imageURL"
     [alt]="product.title"
     class="w-full h-52 object-cover"
   />
-  <div class="p-4 flex flex-col flex-grow">
+  <div class="p-4 flex flex-col grow">
     <h3>{{ product.title }}</h3>
     <p class="text-sm text-gray-600 overflow-hidden line-clamp-2 my-2">
       {{ product.description }}
     </p>
-    <div class="flex-grow"></div>
+    <div class="grow"></div>
     <p class="text-xl font-bold text-gray-800">
       {{ product.priceCents / 100 | currency: "EUR" }}
     </p>

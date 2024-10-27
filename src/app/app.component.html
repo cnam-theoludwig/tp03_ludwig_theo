@@ -6,9 +6,9 @@
   <form class="my-6 flex flex-col sm:flex-row justify-between gap-4">
     <app-input-search
       placeholder="Rechercher..."
-      (input)="handleSearch($event)"
+      (changeSearch)="handleSearch($event)"
       (clear)="handleClear()"
-      class="flex-grow"
+      class="grow"
     ></app-input-search>
 
     <select appSelect id="category" name="category">

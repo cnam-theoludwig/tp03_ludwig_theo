@@ -9,7 +9,7 @@ import { environment } from "../environments/environment"
   providedIn: "root",
 })
 export class ApiService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   public getProducts(): Observable<Product[]> {
     let productsObservable = this.http.get<Product[]>(environment.apiURL)

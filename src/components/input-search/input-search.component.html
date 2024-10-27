@@ -1,9 +1,9 @@
 <div
-  class="border border-gray-darker rounded-lg flex gap-4 py-2 px-4 focus-within:border-sky-500 focus-within:ring-2 focus-within:ring-sky-500 flex-grow"
+  class="border border-gray-darker rounded-lg flex gap-4 py-2 px-4 focus-within:border-sky-500 focus-within:ring-2 focus-within:ring-sky-500 grow"
 >
   <span class="flex items-center">
     <svg
-      class="w-5 h-5"
+      class="size-5"
       viewBox="0 0 24 24"
       stroke-width="1.5"
       width="24"
@@ -33,10 +33,10 @@
     placeholder="{{ placeholder }}"
     [(ngModel)]="searchQuery"
     (input)="handleInput($event)"
-    class="flex-grow p-0 outline-none border-transparent focus:border-transparent focus:ring-transparent placeholder-gray-darker min-w-0"
+    class="grow p-0 outline-none border-transparent focus:border-transparent focus:ring-transparent placeholder:text-gray-darker min-w-0"
   />
   <button type="button" class="flex items-center" (click)="handleClear()">
-    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path
         stroke-linecap="round"
         stroke-linejoin="round"

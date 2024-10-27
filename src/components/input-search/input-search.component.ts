@@ -13,18 +13,18 @@ export class InputSearchComponent {
   public placeholder: string = "Search..."
 
   @Output()
-  public input = new EventEmitter<string>()
+  public changeSearch = new EventEmitter<string>()
 
   public searchQuery: string = ""
 
   handleInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement
     this.searchQuery = inputElement.value
-    this.input.emit(this.searchQuery)
+    this.changeSearch.emit(this.searchQuery)
   }
 
   handleClear(): void {
     this.searchQuery = ""
-    this.input.emit("")
+    this.changeSearch.emit("")
   }
 }
