@@ -45,7 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
     search: "",
     categoryId: "all",
   })
-  private queryParamsSubscription!: Subscription
+  private queryParamsSubscription = new Subscription()
 
   public constructor(
     private readonly apiService: ApiService,
