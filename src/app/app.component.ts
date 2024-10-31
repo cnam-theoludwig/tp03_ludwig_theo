@@ -1,21 +1,22 @@
 import { AsyncPipe } from "@angular/common"
 import { Component, OnDestroy, OnInit } from "@angular/core"
-import { RouterOutlet, ActivatedRoute, Router } from "@angular/router"
-import { merge, Observable, Subject, Subscription } from "rxjs"
+import { ActivatedRoute, Router, RouterOutlet } from "@angular/router"
+import { BehaviorSubject, merge, Observable, Subscription } from "rxjs"
 import {
   debounceTime,
   distinctUntilChanged,
+  map,
   switchMap,
   tap,
-  map,
 } from "rxjs/operators"
 import { FooterComponent } from "../components/footer/footer.component"
 import { HeaderComponent } from "../components/header/header.component"
+import { InputSearchComponent } from "../components/input-search/input-search.component"
+import { ProductListSkeletonComponent } from "../components/product-list-skeleton/product-list-skeleton.component"
 import { ProductListComponent } from "../components/product-list/product-list.component"
+import { SelectCategoryComponent } from "../components/select-category/select-category.component"
 import { Product } from "../models/product"
 import { ApiService } from "../services/api.service"
-import { ProductListSkeletonComponent } from "../components/product-list-skeleton/product-list-skeleton.component"
-import { InputSearchComponent } from "../components/input-search/input-search.component"
 
 @Component({
   selector: "app-root",
@@ -28,14 +29,22 @@ import { InputSearchComponent } from "../components/input-search/input-search.co
     ProductListComponent,
     ProductListSkeletonComponent,
     InputSearchComponent,
+    SelectCategoryComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
 })
 export class AppComponent implements OnInit, OnDestroy {
   public products$!: Observable<Product[]>
-  public isLoading = true
-  public readonly searchQuery$ = new Subject<string>()
+  public isLoading = false
+
+  public readonly queryParams$ = new BehaviorSubject<{
+    search: string
+    categoryId: string
+  }>({
+    search: "",
+    categoryId: "all",
+  })
   private queryParamsSubscription!: Subscription
 
   public constructor(
@@ -48,24 +57,33 @@ export class AppComponent implements OnInit, OnDestroy {
     this.queryParamsSubscription = this.activatedRoute.queryParams
       .pipe(
         map((params) => {
-          return params["searchQuery"] ?? ""
+          return {
+            search: params["search"] ?? "",
+            categoryId: params["categoryId"] ?? "all",
+          }
         }),
         distinctUntilChanged(),
       )
       .subscribe((query) => {
         this.isLoading = true
-        this.searchQuery$.next(query)
+        this.queryParams$.next(query)
       })
 
     this.products$ = merge(
-      this.searchQuery$.pipe(
+      this.queryParams$.pipe(
         debounceTime(400),
         distinctUntilChanged(),
         switchMap((query) => {
-          return this.apiService.getProducts({ searchQuery: query })
+          return this.apiService.getProducts({
+            search: query.search,
+            categoryId: this.getCategoryIdFromString(query.categoryId),
+          })
         }),
       ),
-      this.apiService.getProducts({ searchQuery: "" }),
+      this.apiService.getProducts({
+        search: "",
+        categoryId: undefined,
+      }),
     ).pipe(
       tap(() => {
         this.isLoading = false
@@ -75,19 +93,34 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.queryParamsSubscription.unsubscribe()
-    this.searchQuery$.complete()
+    this.queryParams$.complete()
   }
 
-  public async handleSearch(query: string): Promise<void> {
+  public async handleSearch(search: string): Promise<void> {
     this.isLoading = true
-    this.searchQuery$.next(query)
     await this.router.navigate([], {
-      queryParams: { searchQuery: query },
+      queryParams: { search },
+      queryParamsHandling: "merge",
+    })
+  }
+
+  public async handleCategory(categoryId: string): Promise<void> {
+    this.isLoading = true
+    await this.router.navigate([], {
+      queryParams: { categoryId },
       queryParamsHandling: "merge",
     })
   }
 
   public onSubmit(event: Event): void {
     event.preventDefault()
+  }
+
+  private getCategoryIdFromString(categoryId: string): number | undefined {
+    let categoryIdNumber: number | undefined = Number.parseInt(categoryId, 10)
+    if (Number.isNaN(categoryIdNumber)) {
+      categoryIdNumber = undefined
+    }
+    return categoryIdNumber
   }
 }

@@ -6,6 +6,7 @@ export interface Product {
   description: string
   priceCents: number
   imageURL: string
+  categoryId: number
 }
 
 export const PRODUCTS_MOCK = ProductMockJSON as Product[]

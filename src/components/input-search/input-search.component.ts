@@ -13,10 +13,13 @@ export class InputSearchComponent {
   public placeholder: string = "Search..."
 
   @Input()
-  public searchQuery: string = ""
+  public search: string = ""
 
   @Output()
   public changeSearch = new EventEmitter<string>()
+
+  @Output()
+  public handleClear = new EventEmitter<void>()
 
   handleInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement
@@ -24,6 +27,7 @@ export class InputSearchComponent {
   }
 
   clearSearch(): void {
+    this.handleClear.emit()
     this.changeSearch.emit("")
   }
 }

@@ -1,0 +1,18 @@
+<select
+  appSelect
+  id="category"
+  name="category"
+  (change)="handleCategoryChange($event)"
+>
+  <option value="all">Toutes catégories</option>
+  @if (categories$ | async; as categoriesList) {
+    @for (category of categoriesList; track category.id) {
+      <option
+        value="{{ category.id }}"
+        [selected]="categoryId === category.id.toString()"
+      >
+        {{ category.title }}
+      </option>
+    }
+  }
+</select>

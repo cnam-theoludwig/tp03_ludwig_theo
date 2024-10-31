@@ -10,18 +10,15 @@
     >
       <app-input-search
         placeholder="Rechercher..."
-        [searchQuery]="(searchQuery$ | async) ?? ''"
         (changeSearch)="handleSearch($event)"
+        [search]="queryParams$.value.search"
         class="grow"
       ></app-input-search>
 
-      <select appSelect id="category" name="category">
-        <option value="all">Toutes catégories</option>
-        <option value="1">Cocktail</option>
-        <option value="2">Smoothie</option>
-        <option value="3">Thé</option>
-        <option value="4">Café</option>
-      </select>
+      <app-select-category
+        (selectCategory)="handleCategory($event)"
+        [categoryId]="queryParams$.value.categoryId"
+      ></app-select-category>
     </form>
 
     @if (products$ | async; as productsList) {
