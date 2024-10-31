@@ -17,7 +17,7 @@ export class ApiService {
   public getProducts(input: GetProductsInput = {}): Observable<Product[]> {
     const { searchQuery = "" } = input
 
-    return this.http.get<Product[]>(environment.apiURL).pipe(
+    return this.http.get<Product[]>(environment.apiURLProducts).pipe(
       delay(1_000),
       map((products) => {
         if (searchQuery.length === 0) {

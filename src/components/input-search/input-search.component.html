@@ -35,7 +35,11 @@
     (input)="handleInput($event)"
     class="grow p-0 outline-none border-transparent focus:border-transparent focus:ring-transparent placeholder:text-gray-darker"
   />
-  <button type="button" class="flex items-center" (click)="clearSearch()">
+  <button
+    type="button"
+    class="flex items-center hover:scale-[1.2] transition duration-300"
+    (click)="clearSearch()"
+  >
     <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path
         stroke-linecap="round"

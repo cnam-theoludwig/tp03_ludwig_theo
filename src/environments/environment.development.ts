@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiURL: "/mocks/products.json",
+  apiURLProducts: "/mocks/products.json",
+  apiURLCategories: "/mocks/categories.json",
 }

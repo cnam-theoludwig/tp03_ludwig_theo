@@ -1,7 +1,7 @@
 import { AsyncPipe } from "@angular/common"
-import { Component, OnInit } from "@angular/core"
+import { Component, OnDestroy, OnInit } from "@angular/core"
 import { RouterOutlet, ActivatedRoute, Router } from "@angular/router"
-import { merge, Observable, Subject } from "rxjs"
+import { merge, Observable, Subject, Subscription } from "rxjs"
 import {
   debounceTime,
   distinctUntilChanged,
@@ -32,10 +32,11 @@ import { InputSearchComponent } from "../components/input-search/input-search.co
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   public products$!: Observable<Product[]>
   public isLoading = true
   public readonly searchQuery$ = new Subject<string>()
+  private queryParamsSubscription!: Subscription
 
   public constructor(
     private readonly apiService: ApiService,
@@ -44,7 +45,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.activatedRoute.queryParams
+    this.queryParamsSubscription = this.activatedRoute.queryParams
       .pipe(
         map((params) => {
           return params["searchQuery"] ?? ""
@@ -72,20 +73,21 @@ export class AppComponent implements OnInit {
     )
   }
 
+  public ngOnDestroy(): void {
+    this.queryParamsSubscription.unsubscribe()
+    this.searchQuery$.complete()
+  }
+
   public async handleSearch(query: string): Promise<void> {
     this.isLoading = true
     this.searchQuery$.next(query)
-    await this.updateUrl(query)
-  }
-
-  public onSubmit(event: Event): void {
-    event.preventDefault()
-  }
-
-  private async updateUrl(query: string): Promise<void> {
     await this.router.navigate([], {
       queryParams: { searchQuery: query },
       queryParamsHandling: "merge",
     })
+  }
+
+  public onSubmit(event: Event): void {
+    event.preventDefault()
   }
 }
